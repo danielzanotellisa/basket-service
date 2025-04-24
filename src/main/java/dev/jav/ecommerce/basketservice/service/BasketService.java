@@ -55,4 +55,33 @@ public class BasketService {
     public Optional<Basket> findBasket(String basketId) {
         return basketRepository.findById(basketId);
     }
+
+    public Basket updateBasket(String basketId, BasketRequest basketRequest) {
+
+        Optional<Basket> optionalBasket  = findBasket(basketId);
+
+        List<Product> productList = new ArrayList<>();
+        basketRequest.products().forEach(productRequest -> {
+            PlatziProductResponse platziProductResponse = productService.findById(productRequest.id());
+            productList.add(
+                    Product.builder()
+                            .id(platziProductResponse.id())
+                            .title(platziProductResponse.title())
+                            .price(platziProductResponse.price())
+                            .quantity(productRequest.quantity())
+                            .build()
+            );
+
+        });
+
+        if(optionalBasket.isPresent()) {
+            optionalBasket.get().setProducts(productList);
+            optionalBasket.get().calculateTotalPrice();
+            return optionalBasket.get();
+        }
+
+        else {
+            throw new IllegalArgumentException("Carrinho não encontrado");
+        }
+    }
 }
