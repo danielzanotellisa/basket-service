@@ -3,6 +3,7 @@ package dev.jav.ecommerce.basketservice.controller;
 import dev.jav.ecommerce.basketservice.controller.request.BasketRequest;
 import dev.jav.ecommerce.basketservice.model.Basket;
 import dev.jav.ecommerce.basketservice.service.BasketService;
+import feign.Response;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,5 +35,12 @@ public class BasketController {
         else {
             throw new IllegalArgumentException("O carrinho não foi encontrado");
         }
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Basket> updateBasket(@PathVariable String basketId, @RequestBody BasketRequest request) {
+
+        return ResponseEntity.ok(basketService.updateBasket(basketId,request));
+
     }
 }
