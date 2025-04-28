@@ -77,7 +77,7 @@ public class BasketService {
         if(optionalBasket.isPresent()) {
             optionalBasket.get().setProducts(productList);
             optionalBasket.get().calculateTotalPrice();
-            return optionalBasket.get();
+            return basketRepository.save(optionalBasket.get());
         }
 
         else {
