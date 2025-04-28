@@ -1,6 +1,7 @@
 package dev.jav.ecommerce.basketservice.controller;
 
 import dev.jav.ecommerce.basketservice.controller.request.BasketRequest;
+import dev.jav.ecommerce.basketservice.controller.request.PaymentRequest;
 import dev.jav.ecommerce.basketservice.model.Basket;
 import dev.jav.ecommerce.basketservice.service.BasketService;
 import feign.Response;
@@ -42,5 +43,10 @@ public class BasketController {
 
         return ResponseEntity.ok(basketService.updateBasket(id,request));
 
+    }
+
+    @PutMapping("/{id}/payBasket")
+    public ResponseEntity<Basket> payBasket(@PathVariable String id, @RequestBody PaymentRequest request) {
+        return ResponseEntity.ok(basketService.payBasket(id,request));
     }
 }
