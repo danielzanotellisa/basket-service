@@ -21,6 +21,7 @@ public class Basket {
     private BigDecimal totalPrice;
     private List<Product> products;
     private Status status;
+    private PaymentMethod paymentMethod;
 
 
     public void calculateTotalPrice() {
