@@ -2,6 +2,7 @@ package dev.jav.ecommerce.basketservice.service;
 
 import dev.jav.ecommerce.basketservice.client.PlatziProductResponse;
 import dev.jav.ecommerce.basketservice.controller.request.BasketRequest;
+import dev.jav.ecommerce.basketservice.controller.request.PaymentRequest;
 import dev.jav.ecommerce.basketservice.model.Basket;
 import dev.jav.ecommerce.basketservice.model.Product;
 import dev.jav.ecommerce.basketservice.model.Status;
@@ -83,5 +84,21 @@ public class BasketService {
         else {
             throw new IllegalArgumentException("Carrinho não encontrado");
         }
+    }
+
+    public Basket payBasket (String basketId, PaymentRequest request) {
+
+        Optional<Basket> optionalBasket = findBasket(basketId);
+
+        if(optionalBasket.isPresent()) {
+            optionalBasket.get().setPaymentMethod(request.paymentMethod());
+            optionalBasket.get().setStatus(Status.CLOSED);
+            return basketRepository.save(optionalBasket.get());
+        }
+
+        else {
+            throw new IllegalArgumentException("Carrinho não encontrado");
+        }
+
     }
 }
